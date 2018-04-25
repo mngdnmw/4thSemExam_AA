@@ -7,10 +7,10 @@ import lejos.hardware.motor.Motor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.RangeFinderAdapter;
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.Navigator;
 import lejos.robotics.subsumption.Behavior;
 
-@SuppressWarnings("deprecation")
 public class SonicAvoidanceBehaviour implements Behavior{
 	private static int TRAVEL_SPEED = 8;
 	private boolean suppressed;
@@ -18,8 +18,8 @@ public class SonicAvoidanceBehaviour implements Behavior{
 	private int rangeLimit;
 	private DataOutputStream dos;
 	Navigator nav;
-	DifferentialPilot pilot;
-	public SonicAvoidanceBehaviour(DifferentialPilot pilot ,EV3UltrasonicSensor sonica, int rangeLimit, DataOutputStream dos) {
+	MovePilot pilot;
+	public SonicAvoidanceBehaviour(MovePilot pilot ,EV3UltrasonicSensor sonica, int rangeLimit, DataOutputStream dos) {
 		this.pilot=pilot;
 		this.pilot.setLinearSpeed(TRAVEL_SPEED);
 		suppressed = false;

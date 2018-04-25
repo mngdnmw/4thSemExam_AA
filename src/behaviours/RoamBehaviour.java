@@ -3,7 +3,7 @@ package behaviours;
 import lejos.hardware.motor.Motor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
-import wk14.MessageContainer;
+import gui.MessageContainer;
 
 @SuppressWarnings("deprecation")
 public class RoamBehaviour implements Behavior {
