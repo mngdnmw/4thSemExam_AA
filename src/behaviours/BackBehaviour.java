@@ -1,17 +1,15 @@
 package behaviours;
 
-import lejos.hardware.motor.Motor;
+import gui.MessageContainer;
 import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.subsumption.Behavior;
-import gui.MessageContainer;
 
-@SuppressWarnings("deprecation")
-public class RoamBehaviour implements Behavior {
-	private static int TRAVEL_SPEED = 10;
+public class BackBehaviour  implements Behavior {
+	private static int TRAVEL_SPEED = 4;
 	private boolean suppressed;
 	MovePilot pilot;
 	private MessageContainer messageContainer;
-	public RoamBehaviour(MovePilot pilot, MessageContainer messageContainer) {
+	public BackBehaviour(MovePilot pilot, MessageContainer messageContainer) {
 		this.pilot = pilot;
 		this.pilot.setLinearSpeed(TRAVEL_SPEED);
 		this.messageContainer = messageContainer;
@@ -19,8 +17,7 @@ public class RoamBehaviour implements Behavior {
 	}
 
 	@Override
-	public boolean takeControl() {
-		if(messageContainer.getCommand() == MessageContainer.Command.ROAM) {
+	public boolean takeControl() {	if(messageContainer.getCommand() == MessageContainer.Command.RIGHT) {
 		return true;
 		}
 		return false;
@@ -29,7 +26,7 @@ public class RoamBehaviour implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-		pilot.forward();
+		pilot.backward();
 		while (!suppressed)
 			Thread.yield();
 		pilot.stop();
