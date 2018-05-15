@@ -33,6 +33,7 @@ public class main {
 	private static double TRACK_WIDTH = 10.5;
 	private static double RANGE_LIMIT = 5.0;
 	private static String lastMessage = "";
+
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		try {
@@ -63,6 +64,8 @@ public class main {
 			 */
 			// Behavior b1 = new MoveForward(pilot);
 			// create Behavior Array
+			messageContainer.setMessage("Roam");
+			ThreadMessages(dis, dos, messageContainer);
 			Behavior quit = new QuitBehaviour(messageContainer);
 			Behavior sonic = new AvoidBehaviour(pilot, ultraSensor, RANGE_LIMIT);
 			Behavior roam = new RoamBehaviour(pilot, messageContainer);
@@ -72,33 +75,51 @@ public class main {
 			Behavior turnRight = new TurnLeftBehaviour(pilot, messageContainer);
 			Behavior back = new BackBehaviour(pilot, messageContainer);
 			Behavior changeDirection = new ChangeDirectionBehaviour(pilot, messageContainer);
-			Behavior[] bArray = { quit, sonic, roam, stop, forward, turnLeft, turnRight, back, changeDirection };
+			Behavior[] bArray = { quit, sonic, roam, forward, turnLeft, turnRight, back, changeDirection, stop };
+
 			Arbitrator arby = new Arbitrator(bArray);
 			arby.go();
 
 			// LCD.clear();
 			// LCD.drawString("Client connected", 0, 0);
-			messageContainer.setMessage("Roam");
 			boolean done = false;
-			while (!done) {
-				String message = dis.readUTF();
-				if (!message.equals("")) {
-					lastMessage = message;
-					messageContainer.setMessage(message);
-				}
-				LCD.clear();
-				LCD.drawString("Executing Command: " + lastMessage, 0, (LCD.SCREEN_HEIGHT/2));
-				dos.writeUTF("Connection Exist");
-				dos.flush();
 
-				//// LCD.clear();
-				//// LCD.drawString("EV3 terminating", 0, 1);
-				// System.out.println("EV3 terminating");
-			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void ThreadMessages(final DataInputStream dis, final DataOutputStream dos,
+			final MessageContainer mesCon) {
+		new Thread() {
+			public void run() {
+				boolean done = false;
+				while (!done) {
+					try {
+						String message = dis.readUTF();
+						if (!message.equals("")) {
+							lastMessage = message;
+							mesCon.setMessage(message);
+						}
+						if (mesCon.command == MessageContainer.Command.QUIT) {
+							done = true;
+						}
+
+						LCD.clear();
+						LCD.drawString("Executing Command: " + lastMessage, 0, (LCD.SCREEN_HEIGHT / 2));
+
+						dos.writeUTF("Connection Exist");
+
+						dos.flush();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			}
+		}.start();
 	}
 }
