@@ -53,9 +53,11 @@ public class main {
 			System.out.println("Connect to: ");
 			System.out.println(ipAddress);
 			Socket s = ss.accept();
+			s.setKeepAlive(true);
 			System.out.println("Client connected");
 			DataInputStream dis = new DataInputStream(s.getInputStream());
 			DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+			
 			MessageContainer messageContainer = new MessageContainer();
 			/*
 			 * Behaviors: Quit, (Done SonicAvoidance (Done), Change Direction (Done), Roam
@@ -64,8 +66,9 @@ public class main {
 			 */
 			// Behavior b1 = new MoveForward(pilot);
 			// create Behavior Array
-			messageContainer.setMessage("Roam");
+			
 			ThreadMessages(dis, dos, messageContainer);
+			
 			Behavior quit = new QuitBehaviour(messageContainer);
 			Behavior sonic = new AvoidBehaviour(pilot, ultraSensor, RANGE_LIMIT);
 			Behavior roam = new RoamBehaviour(pilot, messageContainer);
@@ -75,14 +78,14 @@ public class main {
 			Behavior turnRight = new TurnLeftBehaviour(pilot, messageContainer);
 			Behavior back = new BackBehaviour(pilot, messageContainer);
 			Behavior changeDirection = new ChangeDirectionBehaviour(pilot, messageContainer);
-			Behavior[] bArray = { quit, sonic, roam, forward, turnLeft, turnRight, back, changeDirection, stop };
+			Behavior[] bArray = {stop, sonic, roam, forward, turnLeft, turnRight, back, changeDirection, quit};
 
 			Arbitrator arby = new Arbitrator(bArray);
+			
 			arby.go();
 
 			// LCD.clear();
 			// LCD.drawString("Client connected", 0, 0);
-			boolean done = false;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -105,12 +108,11 @@ public class main {
 						}
 						if (mesCon.command == MessageContainer.Command.QUIT) {
 							done = true;
+							break;
 						}
 
 						LCD.clear();
 						LCD.drawString("Executing Command: " + lastMessage, 0, (LCD.SCREEN_HEIGHT / 2));
-
-						dos.writeUTF("Connection Exist");
 
 						dos.flush();
 					} catch (IOException e) {
