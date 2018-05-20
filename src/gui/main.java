@@ -78,7 +78,7 @@ public class main {
 			Behavior turnRight = new TurnLeftBehaviour(pilot, messageContainer);
 			Behavior back = new BackBehaviour(pilot, messageContainer);
 			Behavior changeDirection = new ChangeDirectionBehaviour(pilot, messageContainer);
-			Behavior[] bArray = {stop, sonic, roam, forward, turnLeft, turnRight, back, changeDirection, quit};
+			Behavior[] bArray = {stop, forward, turnLeft, turnRight, back, changeDirection, roam, sonic, quit};
 
 			Arbitrator arby = new Arbitrator(bArray);
 			
