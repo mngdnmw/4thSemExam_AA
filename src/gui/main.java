@@ -38,9 +38,6 @@ public class main {
 	public static void main(String[] args) {
 		try {
 
-			LCD.clear();
-			LCD.drawString("Press to begin", 0, 0);
-			Button.waitForAnyPress();
 			MovePilot pilot = new MovePilot(WHEEL_DIAMETER, TRACK_WIDTH, Motor.B, Motor.D);
 			EV3UltrasonicSensor ultraSensor = new EV3UltrasonicSensor(BRICK.getPort("S1"));
 			ServerSocket ss = new ServerSocket(5969);
@@ -102,6 +99,7 @@ public class main {
 				while (!done) {
 					try {
 						String message = dis.readUTF();
+						
 						if (!message.equals("")) {
 							lastMessage = message;
 							mesCon.setMessage(message);
@@ -116,8 +114,7 @@ public class main {
 
 						dos.flush();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.exit(0);
 					}
 
 				}
