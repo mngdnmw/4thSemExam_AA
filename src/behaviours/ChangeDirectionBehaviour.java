@@ -25,13 +25,10 @@ public class ChangeDirectionBehaviour implements Behavior {
 
 	@Override
 	public void action() {
-		suppressed = false;
 		pilot.rotate(180);
 		pilot.forward();
 		
-		while (!suppressed)
-			Thread.yield();
-		pilot.stop();
+		
 
 	}
 

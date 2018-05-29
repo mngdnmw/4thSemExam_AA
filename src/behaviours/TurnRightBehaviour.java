@@ -28,9 +28,8 @@ public class TurnRightBehaviour implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-		pilot.rotate(-1);
-		while (!suppressed)
-			Thread.yield();
+		pilot.rotate(-10);
+
 		pilot.stop();
 
 	}

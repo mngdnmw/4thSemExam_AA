@@ -44,9 +44,8 @@ public class AvoidBehaviour implements Behavior{
 		Random rand = new Random();
 		int angle = rand.nextInt(90)-90;
 		pilot.rotate(angle);
-		while (!suppressed && pilot.isMoving())
-			Thread.yield();
-		pilot.stop();
+
+
 
 	}
 

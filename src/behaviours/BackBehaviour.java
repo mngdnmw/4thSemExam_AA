@@ -27,8 +27,7 @@ public class BackBehaviour  implements Behavior {
 	public void action() {
 		suppressed = false;
 		pilot.backward();
-		while (!suppressed)
-			Thread.yield();
+
 		pilot.stop();
 
 	}

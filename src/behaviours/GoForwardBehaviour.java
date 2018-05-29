@@ -25,11 +25,10 @@ public class GoForwardBehaviour  implements Behavior {
 
 	@Override
 	public void action() {
-		suppressed = false;
+
 		pilot.forward();
-		while (!suppressed)
-			Thread.yield();
-		pilot.stop();
+
+
 
 	}
 

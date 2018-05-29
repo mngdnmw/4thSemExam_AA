@@ -19,15 +19,18 @@ public class StopBehaviour implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		return true;
+		if(messageContainer.getCommand() == MessageContainer.Command.STOP) {
+			return true;
+			}
+			return false;
+
 	}
 
 	@Override
 	public void action() {
 		suppressed = false;
 		pilot.stop();
-		while (!suppressed)
-			Thread.yield();
+
 
 	}
 
