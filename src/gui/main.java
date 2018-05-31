@@ -20,7 +20,7 @@ import lejos.robotics.subsumption.Behavior;
 import behaviours.AvoidBehaviour;
 import behaviours.BackBehaviour;
 import behaviours.ChangeDirectionBehaviour;
-import behaviours.GoForwardBehaviour;
+import behaviours.DirectionBehaviour;
 import behaviours.QuitBehaviour;
 import behaviours.RoamBehaviour;
 import behaviours.StopBehaviour;
@@ -70,12 +70,9 @@ public class main {
 			Behavior sonic = new AvoidBehaviour(pilot, ultraSensor, RANGE_LIMIT);
 			Behavior roam = new RoamBehaviour(pilot, messageContainer);
 			Behavior stop = new StopBehaviour(pilot, messageContainer);
-			Behavior forward = new GoForwardBehaviour(pilot, messageContainer);
-			Behavior turnLeft = new TurnLeftBehaviour(pilot, messageContainer);
-			Behavior turnRight = new TurnLeftBehaviour(pilot, messageContainer);
-			Behavior back = new BackBehaviour(pilot, messageContainer);
+			Behavior dir = new DirectionBehaviour(pilot, messageContainer);
 			Behavior changeDirection = new ChangeDirectionBehaviour(pilot, messageContainer);
-			Behavior[] bArray = {stop, forward, turnLeft, turnRight, back, changeDirection, roam, sonic, quit};
+			Behavior[] bArray = {stop,roam, changeDirection,sonic,dir, quit};
 
 			Arbitrator arby = new Arbitrator(bArray);
 			
